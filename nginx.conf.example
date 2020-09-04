@@ -1,0 +1,24 @@
+server {
+	root <root_folder>;
+	index index.html;
+	
+	error_log /var/log/nginx/react.error.log;
+	access_log /var/log/nginx/react.access.log;
+
+	server_name react.sergeykoshkarev.com;
+	
+	location ~* ^.+\.(jpg|jpeg|gif|png)$ {
+		root   <public_folder_path>;
+	}
+	location / {
+		try_files $uri $uri/ /index.html;
+	}
+
+	location /assets {
+		alias /public/assets/;
+	}
+	
+	location ~ /\.git {
+		deny all;
+	}
+}
