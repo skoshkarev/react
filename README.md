@@ -1,15 +1,21 @@
 Test assignment by Sergey Koshkarev
 
-## Available Scripts
+### Host
+The production build is placed on https://react.sergeykoshkarev.com/
 
+It served by nginx, and you can find the example of nginx config in nginx.conf.example file.
 
+### SSL
+The installed SSL was generated from "Let's Encrypt" service.
 
-To install Redux:
+### Things to be installed via command line:
 
-### `npm install react-redux`
+`npm install react-redux`
 
-### `npm test`
+`npm install axios`
 
-### `npm start`
+`npm install react-bootstrap bootstrap`
 
-### `npm run build`
+`npm test`
+
+`npm run build`

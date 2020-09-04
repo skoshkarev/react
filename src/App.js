@@ -35,22 +35,21 @@ MovieDataArr.map((movie) => {
     );
 });
 genresArr = Array.from(new Set(genresArr));
-console.log(genresArr);
 
 // Redux usage
 function counter(state = 0, action) {
   switch (action.type) {
     case 'VIEW':
-      let movie_view_counter = parseInt(localStorage.getItem('movie_view_counter'));
-      console.log(movie_view_counter);
-      localStorage.setItem('movie_view_counter', movie_view_counter + 1);
-      return movie_view_counter + 1
+      let page_view_counter = parseInt(localStorage.getItem('page_view_counter')) || 0;
+      localStorage.setItem('page_view_counter', page_view_counter+1);
+      return page_view_counter+1
     default:
       return state
   }
 }
-let MovieViewer = createStore(counter);
-MovieViewer.subscribe(() => console.log(MovieViewer.getState()));
+let PageViewer = createStore(counter);
+
+PageViewer.dispatch({ type: 'VIEW' });
 
 export default function App() {
   return (
@@ -68,7 +67,7 @@ export default function App() {
           </ul>
           </div>
         </nav>
-        <MovieCounter />
+        <PageViewCounter />
         <Search /> 
         <Switch>
           <Route path="/movies">
@@ -109,9 +108,9 @@ function Home() {
   return <h2>Welcome to Test Assignment.</h2>;
 }
 
-function MovieCounter() {
-  const movie_view_counter = localStorage.getItem('movie_view_counter');
-  return <h6>Viewed Movies: {movie_view_counter}</h6>;
+function PageViewCounter() {
+  const page_view_counter = localStorage.getItem('page_view_counter');
+  return <h6>Viewed Pages: {page_view_counter}</h6>;
 }
 
 class Search extends React.Component {
@@ -146,6 +145,8 @@ function SearchResults() {
 
     let regex = new RegExp(term, "gi");
     MoviesArr = MoviesArr.filter((item) => (item.name.match(regex) || item.description.match(regex)));
+
+    PageViewer.dispatch({ type: 'VIEW' });
     
     return (
       <div class="list-group list-group-flush">
@@ -201,8 +202,6 @@ function Movie() {
     if (movie === undefined) {
       return false; // Movie not found
     }
-
-    MovieViewer.dispatch({ type: 'VIEW' });
 
     return (
         <div class="card">
